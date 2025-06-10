@@ -5,8 +5,8 @@ import NewsSection from "./components/NewsSection";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 
-const NEWS_API_KEY = process.env.REACT_APP_NEWS_API_KEY;
-const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+const NEWS_API_KEY = `92221e88091bab959857e1a937a68fc9`
+const WEATHER_API_KEY = `d2dbc9154fae0daaf42b27c046652291`
 
 export default function App() {
   const [theme, setTheme] = useState("light");
