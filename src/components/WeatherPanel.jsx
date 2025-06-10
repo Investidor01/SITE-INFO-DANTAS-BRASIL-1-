@@ -1,32 +1,42 @@
 import React from "react";
+import { Paper, Typography, List, ListItem, ListItemText, Box } from "@mui/material";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import CloudIcon from "@mui/icons-material/Cloud";
+import GrainIcon from "@mui/icons-material/Grain";
+import OpacityIcon from "@mui/icons-material/Opacity";
 
-export default function WeatherPanel({ weather }) {
-  if (!weather || weather.length === 0) return null;
+function getIcon(weather) {
+  if (!weather) return <CloudIcon />;
+    const main = weather.weather?.[0]?.main?.toLowerCase();
+      if (main === "clear") return <WbSunnyIcon color="warning" />;
+        if (main === "clouds") return <CloudIcon color="primary" />;
+          if (main === "rain" || main === "drizzle") return <OpacityIcon color="info" />;
+            if (main === "mist" || main === "fog") return <GrainIcon color="disabled" />;
+              return <CloudIcon />;
+              }
 
-  return (
-    <div className="my-4 grid md:grid-cols-2 gap-4">
-      {weather.map((w) =>
-        w.weather && w.weather.cod === 200 ? (
-          <div
-            key={w.name}
-            className="bg-white dark:bg-gray-800 rounded shadow p-4 flex items-center space-x-4"
-            role="region"
-            aria-label={`Clima em ${w.name}`}
-          >
-            <img
-              src={`https://openweathermap.org/img/wn/${w.weather.weather[0].icon}.png`}
-              alt={w.weather.weather[0].description}
-              className="w-16 h-16"
-            />
-            <div>
-              <div className="font-semibold">{w.name}</div>
-              <div>
-                {Math.round(w.weather.main.temp)}°C - {w.weather.weather[0].description}
-              </div>
-            </div>
-          </div>
-        ) : null
-      )}
-    </div>
-  );
-}
+              export default function WeatherPanel({ weather }) {
+                if (!weather || weather.length === 0) return null;
+
+                  return (
+                      <Paper elevation={3} sx={{ p: 3, borderRadius: 2, mb: 3 }}>
+                            <Typography variant="h6" fontWeight={700} gutterBottom>
+                                    Clima nas Principais Cidades
+                                          </Typography>
+                                                <List>
+                                                        {weather.map((city) => (
+                                                                  <ListItem key={city.id} sx={{ display: "flex", alignItems: "center" }}>
+                                                                              <Box sx={{ mr: 2 }}>{getIcon(city)}</Box>
+                                                                                          <ListItemText
+                                                                                                        primary={`${city.name}: ${Math.round(city.main.temp)}°C`}
+                                                                                                                      secondary={`${city.weather[0].description}`}
+                                                                                                                                  />
+                                                                                                                                              <Typography variant="caption">
+                                                                                                                                                            Umidade: {city.main.humidity}%
+                                                                                                                                                                        </Typography>
+                                                                                                                                                                                  </ListItem>
+                                                                                                                                                                                          ))}
+                                                                                                                                                                                                </List>
+                                                                                                                                                                                                    </Paper>
+                                                                                                                                                                                                      );
+                                                                                                                                                                                                      }

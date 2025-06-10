@@ -1,43 +1,53 @@
 import React from "react";
-import { FaExternalLinkAlt } from "react-icons/fa";
-import ShareButton from "./ShareButton";
+import { Typography, Grid, Card, CardContent, CardMedia, Button, CardActions, Box } from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 export default function NewsSection({ title, articles }) {
   if (!articles || articles.length === 0) return null;
 
-  return (
-    <section
-      className="my-6"
-      aria-labelledby={`${title.toLowerCase()}-heading`}
-    >
-      <h2
-        id={`${title.toLowerCase()}-heading`}
-        className="text-2xl font-bold mb-3 text-gray-900 dark:text-white"
-      >
-        {title}
-      </h2>
-      <ul className="space-y-4">
-        {articles.map((a) => (
-          <li
-            key={a.url}
-            className="bg-white dark:bg-gray-800 p-4 rounded shadow"
-          >
-            <a
-              href={a.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-700 dark:text-blue-400 hover:underline flex items-center"
-              aria-label={`Abrir notícia: ${a.title}`}
-            >
-              {a.title} <FaExternalLinkAlt className="ml-2" aria-hidden="true" />
-            </a>
-            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">{a.description}</p>
-            <div className="mt-2">
-              <ShareButton url={a.url} title={a.title} />
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
+    return (
+        <Box sx={{ mb: 4 }}>
+              <Typography variant="h5" fontWeight={700} gutterBottom sx={{ mt: 2, mb: 2 }}>
+                      {title}
+                            </Typography>
+                                  <Grid container spacing={3}>
+                                          {articles.map((article, idx) => (
+                                                    <Grid item xs={12} sm={6} key={idx}>
+                                                                <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                                                                              {article.urlToImage && (
+                                                                                              <CardMedia
+                                                                                                                component="img"
+                                                                                                                                  height="160"
+                                                                                                                                                    image={article.urlToImage}
+                                                                                                                                                                      alt={article.title}
+                                                                                                                                                                                      />
+                                                                                                                                                                                                    )}
+                                                                                                                                                                                                                  <CardContent>
+                                                                                                                                                                                                                                  <Typography gutterBottom variant="h6" component="h3" fontWeight={600}>
+                                                                                                                                                                                                                                                    {article.title}
+                                                                                                                                                                                                                                                                    </Typography>
+                                                                                                                                                                                                                                                                                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                                                                                                                                                                                                                                                                                                      {article.description}
+                                                                                                                                                                                                                                                                                                                      </Typography>
+                                                                                                                                                                                                                                                                                                                                      <Typography variant="caption" color="text.secondary">
+                                                                                                                                                                                                                                                                                                                                                        {article.source?.name} {article.publishedAt && `- ${new Date(article.publishedAt).toLocaleDateString("pt-BR")}`}
+                                                                                                                                                                                                                                                                                                                                                                        </Typography>
+                                                                                                                                                                                                                                                                                                                                                                                      </CardContent>
+                                                                                                                                                                                                                                                                                                                                                                                                    <CardActions>
+                                                                                                                                                                                                                                                                                                                                                                                                                    <Button
+                                                                                                                                                                                                                                                                                                                                                                                                                                      size="small"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        color="primary"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          href={article.url}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            target="_blank"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              endIcon={<OpenInNewIcon />}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              >
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Ler mais
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </Button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </CardActions>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </Card>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </Grid>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ))}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </Grid>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </Box>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        );
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
